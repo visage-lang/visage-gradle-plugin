@@ -1,0 +1,39 @@
+
+
+buildscript{
+repositories {
+	mavenLocal()
+
+}
+dependencies {
+	classpath  'visage:visage-gradle-plugin:0.1-SNAPSHOT'
+	
+	
+}
+}
+
+apply plugin: 'groovy'
+apply plugin: 'visage'
+apply plugin: 'maven'
+
+group = 'visage'
+version = '0.1-SNAPSHOT'
+
+
+repositories {
+	mavenCentral()
+
+}
+
+dependencies {
+	compile gradleApi()
+	groovy localGroovy()
+	
+}
+
+
+manifest.mainAttributes('Implementation-Title': "${project.name}",
+                        'Implementation-Version': project.version,
+                        'Built-By': System.properties['user.name'])
+
+

@@ -1,0 +1,31 @@
+defaultTasks 'clean', 'install'
+
+
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+group = 'visage'
+version = '0.1-SNAPSHOT'
+
+
+repositories {
+	mavenCentral()
+
+}
+
+dependencies {
+	compile gradleApi()
+	groovy localGroovy()
+	
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "1.0"
+}
+
+manifest.mainAttributes('Implementation-Title': "${project.name}",
+                        'Implementation-Version': project.version,
+                        'Built-By': System.properties['user.name'])
+
+
