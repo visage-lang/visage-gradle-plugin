@@ -119,8 +119,8 @@ public class VisageCompileTask extends VisageSourceTask {
         def cp = project.files(
                // this.inputRoots,
                 this.destinationDir,
-                project.configurations.development,
-                this.compileClasspath
+                project.configurations.development
+              //  this.compileClasspath
         ).getAsPath();
         logger.debug("Visage Compilation Classpath = $cp");
         def srcFiles = source.collect {
