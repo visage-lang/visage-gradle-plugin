@@ -45,8 +45,8 @@ class VisageSourceSet {
 
     public VisageSourceSet(String displayName, FileResolver fileResolver) {
         visage = new DefaultSourceDirectorySet(String.format("%s Visage source", displayName), fileResolver)
-        visage.filter.include("**/*.clj")
-        visagePatterns.include("**/*.clj")
+        visage.filter.include("**/*.visage")
+        visagePatterns.include("**/*.visage")
         allVisage = new UnionFileTree(String.format("%s Visage source", displayName), visage.matching(visagePatterns))
     }
 
@@ -69,13 +69,13 @@ class VisageSourceSet {
 
     public void visageIncludeNamespace(String pattern) {
         visage.include(
-            pattern.replaceAll("-", "_").replaceAll("\\.", "/") + ".clj"
+            pattern.replaceAll("-", "_").replaceAll("\\.", "/") + ".visage"
         )
     }
 
     public void visageExcludeNamespace(String pattern) {
         visage.exclude(
-            pattern.replaceAll("-", "_").replaceAll("\\.", "/") + ".clj"
+            pattern.replaceAll("-", "_").replaceAll("\\.", "/") + ".visage"
         )
     }
 }
