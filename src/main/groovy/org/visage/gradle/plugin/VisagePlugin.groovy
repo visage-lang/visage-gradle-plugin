@@ -94,7 +94,7 @@ class VisagePlugin implements Plugin<Project> {
 
             sourceSet.convention.plugins.visage = visageSourceSet
             sourceSet.visage.srcDirs = [ String.format("src/%s/visage", sourceSet.name) ]
-            sourceSet.resources.filter.exclude("**/*.visage")
+           // sourceSet.resources.filter.exclude("**/*.visage")
             sourceSet.allSource.source(visageSourceSet.visage)
         }
     }
