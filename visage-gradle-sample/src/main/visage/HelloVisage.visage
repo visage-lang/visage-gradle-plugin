@@ -1,0 +1,8 @@
+Stage {
+  title: "Hello World"
+  Scene {
+    Text {
+      "Hello World"
+    }
+  }
+}
