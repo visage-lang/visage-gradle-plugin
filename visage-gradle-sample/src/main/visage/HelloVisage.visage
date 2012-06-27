@@ -1,3 +1,8 @@
+import visage.javafx.stage.*;
+
+
+
+
 Stage {
   title: "Hello World"
   Scene {

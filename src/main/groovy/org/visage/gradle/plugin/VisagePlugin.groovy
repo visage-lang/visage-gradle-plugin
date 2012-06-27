@@ -40,6 +40,7 @@ import org.gradle.api.plugins.WarPlugin
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.bundling.War
+import org.gradle.api.tasks.StopExecutionException
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.internal.project.ProjectInternal
 
@@ -59,6 +60,7 @@ class VisagePlugin implements Plugin<Project> {
 		project.convention.plugins.visage = new VisagePluginConvention(project);
 		
 		configureConfigurations(project)
+        configureDependencies(project)
 		configureSourceSets(project)
 		configureCompileTask(project)
 		
@@ -82,6 +84,21 @@ class VisagePlugin implements Plugin<Project> {
             clojuresque group: "clojuresque", name: "runtime",
                 version: this.properties.getProperty("clojuresque.version")
         }*/
+    }
+
+
+
+    private void configureDependencies(project) {
+
+            String visageHome = System.env["VISAGE_HOME"]
+
+            if (!visageHome)
+            {
+               // logging.error("VISAGE_HOME is not set in System Variable.")
+              //  logging.debug("VISAGE_HOME is not set. Download it from http://code.google.com/p/visage/");
+                throw new StopExecutionException("VISAGE_HOME is not set.")
+            }
+
     }
 	
 	
