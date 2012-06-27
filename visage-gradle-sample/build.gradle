@@ -25,6 +25,12 @@ repositories {
 
 }
 
+//visageMainClass = ''
+
+visage {
+ //visageMainClass = ''	
+}
+
 dependencies {
 	compile gradleApi()
 	groovy localGroovy()

@@ -30,21 +30,27 @@ package org.visage.gradle.plugin
  
 import org.gradle.api.Project
 
+/** 
+ * <p>Visage Build Conventins class</p>
+ * 
+ * @author Rajmahendra Hegde <rajmahendra@gmail.com>
+ *
+ *
+ */
 class VisagePluginConvention {
 
 	Project project
-
-    String visageVersion
 	
-	final visageSrcDirName = "src/main/visage"
+	String visageMainClass
+
 	
 	VisagePluginConvention(project) {
 			this.project=project
 	}
 	
-	File getVisageSrcDir() {
-		project.file(visageSrcDirName)
+	def visage(Closure closure) {
+		closure.delegate = this
+		closure()
 	}
-
 
 }

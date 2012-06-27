@@ -26,8 +26,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 package org.visage.gradle.plugin
- 
- 
+
+
+import groovy.io.FileType;
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ConfigurationContainer
@@ -45,99 +47,122 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.api.internal.project.ProjectInternal
 
 
-
+/** 
+ * <p>Primary class for Visage Gradle Plugin</p>
+ * 
+ * @author Rajmahendra Hegde <rajmahendra@gmail.com>
+ *
+ *
+ */
 class VisagePlugin implements Plugin<Project> {
-
+	
 	static final String VISAGE_CONFIGURATION_NAME = "visage"
 	
-	
-	
+	static final String VISAGE_GROUP = "Visage"
+
 	void apply(Project project) {
-	
-		//project.getPlugins().apply(JavaPlugin.class);
-		
-		
+
+		configureSetup(project)
+
+		project.getPlugins().apply(JavaPlugin.class);
+
 		project.convention.plugins.visage = new VisagePluginConvention(project);
-		
-		configureConfigurations(project)
-        configureDependencies(project)
+
 		configureSourceSets(project)
 		configureCompileTask(project)
+		configureRunTask(project)
+	}
+
+	/*private void configureConfigurations(Project project) {
+		project.configurations {
+			visage {
+				transitive = false
+				visible = false
+				description = "Visage internal configuration. Don't use!"
+			}
+			development {
+				transitive = false
+				visible = false
+				description = "Development only dependencies"
+			}
+		}
+	}*/
+
+	private void configureSetup(project) {
+
+		String visageHome = System.env["VISAGE_HOME"]
+		//isExisit = false
 		
-	
+		if (!visageHome)
+			throw new StopExecutionException("VISAGE_HOME is not set.")
+				
+	}
+
+	private void configureSourceSets(Project project) {
+		ProjectInternal projectInternal = (ProjectInternal)project
+
+		project.sourceSets.each { sourceSet ->
+			VisageSourceSet visageSourceSet =
+					new VisageSourceSet(sourceSet.name, projectInternal.fileResolver)
+
+			sourceSet.convention.plugins.visage = visageSourceSet
+			sourceSet.visage.srcDirs = [
+				String.format("src/%s/visage", sourceSet.name)
+			]
+			// sourceSet.resources.filter.exclude("**/*.visage")
+			sourceSet.allSource.source(visageSourceSet.visage)
+		}
+	}
+
+	private void configureCompileTask(Project project) {
+		project.sourceSets.each { set ->
+			if (set.equals(project.sourceSets.test))
+				return
+			String compileTaskName = set.getCompileTaskName("visage")
+			
+			VisageCompileTask task = project.tasks.add(name: compileTaskName,
+					type: VisageCompileTask.class) {
+						destinationDir = set.output.classesDir
+						source set.visage
+						visageRoots = set.visage
+						classpath = project.files(
+								set.compileClasspath,
+								//project.configurations.development
+								)
+						description =
+								String.format("Compile the %s Visage source.",
+								set.name)
+						group = VISAGE_GROUP
+					}
+			project.tasks[set.classesTaskName].dependsOn task
+		}
 	}
 	
-	private void configureConfigurations(Project project) {
-        project.configurations {
-            visage {
-                transitive = false
-                visible = false
-                description = "Visage internal configuration. Don't use!"
-            }
-            development {
-                transitive = false
-                visible = false
-                description = "Development only dependencies"
-            }
-        }
-       /* project.dependencies {
-            clojuresque group: "clojuresque", name: "runtime",
-                version: this.properties.getProperty("clojuresque.version")
-        }*/
-    }
-
-
-
-    private void configureDependencies(project) {
-
-            String visageHome = System.env["VISAGE_HOME"]
-
-            if (!visageHome)
-            {
-               // logging.error("VISAGE_HOME is not set in System Variable.")
-              //  logging.debug("VISAGE_HOME is not set. Download it from http://code.google.com/p/visage/");
-                throw new StopExecutionException("VISAGE_HOME is not set.")
-            }
-
-    }
+	private void configureRunTask(Project project) {
 	
-	
-	private void configureSourceSets(Project project) {
-        ProjectInternal projectInternal = (ProjectInternal)project
-
-        project.sourceSets.each { sourceSet ->
-            VisageSourceSet visageSourceSet =
-                new VisageSourceSet(sourceSet.name, projectInternal.fileResolver)
-
-            sourceSet.convention.plugins.visage = visageSourceSet
-            sourceSet.visage.srcDirs = [ String.format("src/%s/visage", sourceSet.name) ]
-           // sourceSet.resources.filter.exclude("**/*.visage")
-            sourceSet.allSource.source(visageSourceSet.visage)
-        }
-    }
-	
-	
-	private void configureCompileTask(Project project) {
-        project.sourceSets.each { set ->
-            if (set.equals(project.sourceSets.test))
-                return
-            String compileTaskName = set.getCompileTaskName("visage")
-            VisageCompileTask task = project.tasks.add(name: compileTaskName,
-                    type: VisageCompileTask.class) {
-                destinationDir = set.output.classesDir
-                source set.visage
-                visageRoots = set.visage
-                classpath = project.files(
-                    set.compileClasspath,
-                    project.configurations.development
-                )
-                description =
-                    String.format("Compile the %s Visage source.",
-                            set.name)
-            }
-            project.tasks[set.classesTaskName].dependsOn task
-        }
-    }
-	
-
+			
+			
+			project.sourceSets.each { set ->
+				if (set.equals(project.sourceSets.test))
+					return
+			
+				VisageRunTask task = project.tasks.add(name: 'runVisage',
+			type: VisageRunTask.class) {
+						//	destinationDir = set.output.classesDir
+							source set.visage
+						//	visageRoots = set.visage
+							classpath = project.files(
+									set.compileClasspath,
+									//project.configurations.development
+									)
+							description = 'Run a Viaage main file.'
+			group = VISAGE_GROUP
+						}
+				project.tasks[set.classesTaskName].dependsOn task
+			}
+			
+			
+			
+			
+		}
 }

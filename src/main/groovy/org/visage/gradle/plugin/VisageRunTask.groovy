@@ -27,24 +27,53 @@
  */
 package org.visage.gradle.plugin
 
-import org.gradle.api.tasks.SourceTask
+import org.gradle.api.file.FileCollection
+import org.gradle.api.file.SourceDirectorySet
+import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.StopExecutionException
+import org.gradle.api.tasks.TaskAction
+
+import java.io.File
+import java.io.InputStream
+
+import groovy.lang.Closure
 
 /** 
- * <p>Visage base task</p>
+ * <p>Visage Run Task</p>
  * 
  * @author Rajmahendra Hegde <rajmahendra@gmail.com>
  *
  *
  */
-public class VisageSourceTask extends SourceTask {
-   
-    public VisageSourceTask includeNamespace(String pattern) {
-        include(pattern.replaceAll("-", "_").replaceAll("\\.", "/") + ".visage")
-        return this
-    }
+public class VisageRunTask extends VisageSourceTask {
+	def String visageMainClass
+	def FileCollection classpath
+	def SourceDirectorySet visageRoots
 
-    public VisageSourceTask excludeNamespace(String pattern) {
-        exclude(pattern.replaceAll("-", "_").replaceAll("\\.", "/") + ".visage")
-        return this
-    }
+
+	 String getVisageMainClass() {
+		return this.visageMainClass
+	}
+
+	 @InputFiles
+	 public FileCollection getClasspath() {
+		 return this.classpath
+	 }
+
+
+
+	@TaskAction
+	public void run() {
+		if (visageMainClass == null) {
+			throw new StopExecutionException("Specify a valid Main class to visageMainClass property")
+		}
+	
+	}
+
+
+
+
+
+
 }

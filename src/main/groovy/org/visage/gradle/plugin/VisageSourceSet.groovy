@@ -38,6 +38,13 @@ import org.gradle.api.tasks.util.PatternFilterable
 import org.gradle.api.tasks.util.PatternSet
 import org.gradle.util.ConfigureUtil
 
+/** 
+ * <p>Visage project folder structure</p>
+ * 
+ * @author Rajmahendra Hegde <rajmahendra@gmail.com>
+ *
+ *
+ */
 class VisageSourceSet {
     private final SourceDirectorySet visage
     private final UnionFileTree allVisage
