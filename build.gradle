@@ -9,25 +9,18 @@ group = 'visage'
 version = '0.1-SNAPSHOT'
 
 
-repositories {
-	mavenCentral()
-
-}
+repositories { mavenCentral() }
 
 dependencies {
 	compile gradleApi()
 	groovy localGroovy()
-	
-	
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = "1.0"
-}
+task wrapper(type: Wrapper) { gradleVersion = "1.0" }
 
 manifest.mainAttributes('Implementation-Title': "${project.name}",
-                        'Implementation-Version': project.version,
-                        'Built-By': System.properties['user.name'])
+		'Implementation-Version': project.version,
+		'Built-By': System.properties['user.name'])
 
 
 uploadArchives {
