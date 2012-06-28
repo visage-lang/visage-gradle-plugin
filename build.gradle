@@ -18,6 +18,7 @@ dependencies {
 	compile gradleApi()
 	groovy localGroovy()
 	
+	
 }
 
 task wrapper(type: Wrapper) {
@@ -28,4 +29,12 @@ manifest.mainAttributes('Implementation-Title': "${project.name}",
                         'Implementation-Version': project.version,
                         'Built-By': System.properties['user.name'])
 
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			repository(url: "file://${rootDir}/../visage-gradle-plugin-pages/repository")
+		}
+	}
+}
 

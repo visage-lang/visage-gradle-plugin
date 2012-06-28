@@ -30,7 +30,6 @@ package org.visage.gradle.plugin
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.tasks.InputFiles
-import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.StopExecutionException
 import org.gradle.api.tasks.TaskAction
 

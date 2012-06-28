@@ -120,7 +120,7 @@ public class VisageCompileTask extends VisageSourceTask {
 		// TODO I don't think this works for paths with spaces in them. Should fix this.
 		def cp = project.files(
 				// this.inputRoots,
-				this.destinationDir,
+				this.destinationDir,classpath
 				//project.configurations.development
 				//  this.compileClasspath
 				).getAsPath();

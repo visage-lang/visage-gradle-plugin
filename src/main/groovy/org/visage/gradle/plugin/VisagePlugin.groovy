@@ -61,6 +61,7 @@ class VisagePlugin implements Plugin<Project> {
 	static final String VISAGE_GROUP = "Visage"
 
 	void apply(Project project) {
+		
 
 		configureSetup(project)
 
@@ -90,11 +91,36 @@ class VisagePlugin implements Plugin<Project> {
 
 	private void configureSetup(project) {
 
-		String visageHome = System.env["VISAGE_HOME"]
-		//isExisit = false
+		final visageHome = System.env["VISAGE_HOME"]
+		final javafxHome = System.env["JAVAFX_HOME"]
+		final visageJar = "${visageHome}/lib/VisageFX.jar"
+		
+		def jfxJar =''
 		
 		if (!visageHome)
 			throw new StopExecutionException("VISAGE_HOME is not set.")
+		
+		if(!(new File(visageHome + "/bin/visage")).exists())
+				throw new StopExecutionException("Visage compiler is not in VISAGE_HOME")
+		
+		if(!(new File(visageJar)).exists())
+				throw new StopExecutionException("VisageFX is missing in VISAGE_HOME/lib")
+		
+		if (javafxHome) {
+			jfxJar = "${javafxHome}/rt/lib/jfxrt.jar"
+		}
+		else{
+			final javaHome = System.env["JAVA_HOME"]
+			jfxJar = "${javaHome}/jre/lib/jfxrt.jar"
+		}
+		
+		if(!(new File(jfxJar)).exists())
+		throw new StopExecutionException("JAVAFX_HOME is not set or your JDK is not having JAVAFX jar.")
+		
+			project.dependencies  {
+			  compile project.files(jfxJar,visageJar)
+		}
+			
 				
 	}
 
@@ -122,11 +148,13 @@ class VisagePlugin implements Plugin<Project> {
 			
 			VisageCompileTask task = project.tasks.add(name: compileTaskName,
 					type: VisageCompileTask.class) {
+					//project.sourceSets.main.output.classesDir
 						destinationDir = set.output.classesDir
 						source set.visage
 						visageRoots = set.visage
 						classpath = project.files(
 								set.compileClasspath,
+								project.files([project.configurations.runtime]) 
 								//project.configurations.development
 								)
 						description =
@@ -145,8 +173,8 @@ class VisagePlugin implements Plugin<Project> {
 			project.sourceSets.each { set ->
 				if (set.equals(project.sourceSets.test))
 					return
-			
-				VisageRunTask task = project.tasks.add(name: 'runVisage',
+
+		VisageRunTask task = project.tasks.add(name: 'runVisage',
 			type: VisageRunTask.class) {
 						//	destinationDir = set.output.classesDir
 							source set.visage
