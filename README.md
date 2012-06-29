@@ -17,10 +17,17 @@ Usage
 =====
 This project is currently under development. 
 
-Credit.
-=======
-We used kotarak's clojuresque project as a base idea for this project. 
-Thank to kotarak for the idea of writing this plugin. 
+Add following code snippet in your 'build.gradle' and you are all set!
+
+
+      buildscript {
+          	repositories {
+                		repositories {	mavenRepo url: "http://jugchennai.github.com/visage-gradle-plugin/repository" } 
+         	}
+     	dependencies {	classpath 'visage:visage-gradle-plugin:0.1-SNAPSHOT' }
+    }
+
+    apply plugin: 'visage'
 
 
 

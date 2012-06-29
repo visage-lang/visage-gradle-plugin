@@ -47,6 +47,7 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.api.internal.project.ProjectInternal
 
 
+
 /** 
  * <p>Primary class for Visage Gradle Plugin</p>
  * 
@@ -93,7 +94,7 @@ class VisagePlugin implements Plugin<Project> {
 
 		final visageHome = System.env["VISAGE_HOME"]
 		final javafxHome = System.env["JAVAFX_HOME"]
-		final visageJar = "${visageHome}/lib/VisageFX.jar"
+		final visageJar = "${visageHome}${File.separator}lib${File.separator}VisageFX.jar"
 		
 		def jfxJar =''
 		
@@ -107,18 +108,23 @@ class VisagePlugin implements Plugin<Project> {
 				throw new StopExecutionException("VisageFX is missing in VISAGE_HOME/lib")
 		
 		if (javafxHome) {
-			jfxJar = "${javafxHome}/rt/lib/jfxrt.jar"
+			jfxJar = "${javafxHome}${File.separator}rt${File.separator}lib${File.separator}jfxrt.jar"
 		}
 		else{
 			final javaHome = System.env["JAVA_HOME"]
-			jfxJar = "${javaHome}/jre/lib/jfxrt.jar"
+			jfxJar = "${javaHome}${File.separator}jre${File.separator}lib${File.separator}jfxrt.jar"
 		}
 		
 		if(!(new File(jfxJar)).exists())
 		throw new StopExecutionException("JAVAFX_HOME is not set or your JDK is not having JAVAFX jar.")
 		
+		
+		println "jfxJar => ${jfxJar}"
+		println "visageJar => ${visageJar}"
+		println project.files(visageJar)
+		
 			project.dependencies  {
-			  compile project.files(jfxJar,visageJar)
+			  compile project.files(visageJar)
 		}
 			
 				
@@ -188,9 +194,6 @@ class VisagePlugin implements Plugin<Project> {
 						}
 				project.tasks[set.classesTaskName].dependsOn task
 			}
-			
-			
-			
-			
+
 		}
 }

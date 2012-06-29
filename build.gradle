@@ -19,8 +19,10 @@ dependencies {
 task wrapper(type: Wrapper) { gradleVersion = "1.0" }
 
 manifest.mainAttributes('Implementation-Title': "${project.name}",
+		'Implementation-Group': project.group,
 		'Implementation-Version': project.version,
-		'Built-By': System.properties['user.name'])
+		'Website': 'http://code.google.com/p/visage/',
+		'Built-By': 'Rajmahendra')
 
 
 uploadArchives {
