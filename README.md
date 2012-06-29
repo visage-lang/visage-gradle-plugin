@@ -20,15 +20,17 @@ This project is currently under development.
 Add following code snippet in your 'build.gradle' and you are all set!
 
 
-      buildscript {
-          	repositories {
-                		repositories {	mavenRepo url: "http://jugchennai.github.com/visage-gradle-plugin/repository" } 
-         	}
-     	dependencies {	classpath 'visage:visage-gradle-plugin:0.1-SNAPSHOT' }
-    }
+     buildscript {
+          repositories {
+               repositories {	mavenRepo url: "http://jugchennai.github.com/visage-gradle-plugin/repository" } 
+          }
+          dependencies {	
+               classpath 'visage:visage-gradle-plugin:0.1-SNAPSHOT' }
+          }
 
-    apply plugin: 'visage'
+     apply plugin: 'visage'
 
+Put all your visage files at src/main/viaage folder
 
 
 
