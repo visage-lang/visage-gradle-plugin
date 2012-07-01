@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2012, Visage Project
+ * Copyright (c) 2010-2011, Visage Project
  * All rights reserved.
  *
  * Redistribution or use in source or binary forms, with or without
@@ -25,22 +25,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package org.visage.gradle.plugin
- 
- 
-import org.gradle.api.Project
 
-/** 
- * <p>Visage Build Conventins class</p>
- * 
- * @author Rajmahendra Hegde <rajmahendra@gmail.com>
+/**
+ *
+ * Class for testing the VisageFX Effect family.
  *
  *
+ *@author Rajmahendra Hegde (rajonjava@gmail.com)
  */
-class VisagePluginConvention {
 
-	
-	String visageMainClass
+package visage.javafx.scene.control;
+ 
+import visage.javafx.scene.*;
+import visage.javafx.stage.*;
+import visage.javafx.scene.text.*;
+import visage.lang.Color.*;
+import visage.javafx.scene.effect.*;
+
+import visage.javafx.scene.control.*;
 
 
+
+
+Stage {
+	title: "Test Me...."
+
+	Scene {
+		width: 300
+		height: 300
+		fill: WHITE
+
+		Group {
+
+
+                    var t1 = TitledPane {
+                      //  title: "test"
+                        content: Button {}
+                    }
+
+
+		}   
+
+	}
 }
+

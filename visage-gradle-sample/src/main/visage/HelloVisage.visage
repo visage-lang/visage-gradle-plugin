@@ -1,13 +1,16 @@
 import visage.javafx.stage.*;
-
+import visage.javafx.scene.*;
+import visage.javafx.scene.text.*;
 
 
 
 Stage {
   title: "Hello World"
   Scene {
-    Text {
-      "Hello World"
+  Group{
+    [Text {
+      text: "Hello World"
+    }]
     }
   }
 }

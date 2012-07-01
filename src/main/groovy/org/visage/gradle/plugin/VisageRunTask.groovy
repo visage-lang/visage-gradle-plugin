@@ -30,6 +30,7 @@ package org.visage.gradle.plugin
 import org.gradle.api.file.FileCollection
 import org.gradle.api.file.SourceDirectorySet
 import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.StopExecutionException
 import org.gradle.api.tasks.TaskAction
 
@@ -49,6 +50,12 @@ public class VisageRunTask extends VisageSourceTask {
 	def String visageMainClass
 	def FileCollection classpath
 	def SourceDirectorySet visageRoots
+	def File destinationDir
+	
+	@OutputDirectory
+	public File getDestinationDir() {
+		return this.destinationDir
+	}
 
 
 	 String getVisageMainClass() {
@@ -60,15 +67,43 @@ public class VisageRunTask extends VisageSourceTask {
 		 return this.classpath
 	 }
 
-
-
+	
+	
+	
 	@TaskAction
 	public void run() {
-		if (visageMainClass == null) {
-			throw new StopExecutionException("Specify a valid Main class to visageMainClass property")
+		
+
+		// TODO I don't think this works for paths with spaces in them. Should fix this.
+		def cp = project.files(
+				// this.inputRoots,
+				classpath
+				//project.configurations.development
+				//  this.compileClasspath
+				).getAsPath();
+		logger.debug("Visage running Classpath = $cp");
+		
+		logger.debug("Visage Running Files: $visageMainClass");
+		String lCommand = "visage -cp $cp  $visageMainClass"
+		logger.info("Visage Run Command: " + lCommand)
+		def sout = new StringBuffer()
+		def serr = new StringBuffer()
+		def process = lCommand.execute()
+		process.consumeProcessOutput(sout, serr)
+		process.waitFor()
+		// TODO this doesn't appear to stop compilation if there are missing entries on the class path.
+		if (process.exitValue()) {
+			logger.error(serr.toString())
+			logger.info(sout.toString())
+			throw new StopExecutionException("Failed to run Visage")
+		} else {
+			logger.info(sout.toString())
+			logger.debug(serr.toString())
 		}
-	
+
 	}
+
+
 
 
 
