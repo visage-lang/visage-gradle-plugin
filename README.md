@@ -3,7 +3,8 @@ visage-gradle-plugin
 
 What is Gradle?
 ===============
-Gradle is a general purpose Java build tool. Built on Groovy language but its also used for Java projects. You write build using Domain-Specific Language (DSL)
+Gradle is a general purpose Java build tool. Built on Groovy language but its also used for Java projects. 
+You write build using Domain-Specific Language (DSL).
 
 What is Visage?
 ===============
@@ -17,7 +18,7 @@ Usage
 =====
 This project is currently under development. 
 
-Add following code snippet in your 'build.gradle' and you are all set!
+Add following code snippet in your `build.gradle` and you are all set!
 
 
      buildscript {
@@ -29,8 +30,18 @@ Add following code snippet in your 'build.gradle' and you are all set!
           }
 
      apply plugin: 'visage'
+	 apply plugin: 'visage-template'
 
-Put all your visage files at src/main/viaage folder
+Put all your visage files at `src/main/visage` folder
 
+Prerequisite
+============
+
+Before you use this plugin you need following in your syste:
+* JDK 1.5+
+* Gradle - If you dont have just run `gradlew`
+* Visage Compiler - 
+* VisageFX.jar - You need to build from source to create the jar
+* JavaFX 2
 
 
