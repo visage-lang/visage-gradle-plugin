@@ -16,15 +16,14 @@ version = '0.1-SNAPSHOT'
 
 repositories { mavenCentral() }
 
+visageMainClass="HelloVisage"
+
+
 
 visage {
 	visageMainClass="HelloVisage"
 }
 
-dependencies {
-
-
-}
 
 task myrun (type: Exec) {
 	

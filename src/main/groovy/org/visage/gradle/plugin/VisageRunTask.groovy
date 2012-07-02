@@ -66,9 +66,6 @@ public class VisageRunTask extends VisageSourceTask {
 	 public FileCollection getClasspath() {
 		 return this.classpath
 	 }
-
-	
-	
 	
 	@TaskAction
 	public void run() {
@@ -91,7 +88,7 @@ public class VisageRunTask extends VisageSourceTask {
 		def process = lCommand.execute()
 		process.consumeProcessOutput(sout, serr)
 		process.waitFor()
-		// TODO this doesn't appear to stop compilation if there are missing entries on the class path.
+		
 		if (process.exitValue()) {
 			logger.error(serr.toString())
 			logger.info(sout.toString())

@@ -100,7 +100,7 @@ class VisagePlugin implements Plugin<Project> {
 
 		final visageHome = System.env["VISAGE_HOME"]
 		final javafxHome = System.env["JAVAFX_HOME"]
-		final visageJar = "${visageHome}${File.separator}lib${File.separator}VisageFX.jar"
+		final visageJar = "${visageHome}/lib/VisageFX.jar"
 		
 		def jfxJar =''
 		
@@ -114,11 +114,11 @@ class VisagePlugin implements Plugin<Project> {
 				throw new StopExecutionException("VisageFX is missing in VISAGE_HOME/lib. Download and place the VisageFx.jar in this path.")
 		
 		if (javafxHome) {
-			jfxJar = "${javafxHome}${File.separator}rt${File.separator}lib${File.separator}jfxrt.jar"
+			jfxJar = "${javafxHome}/rt/lib/jfxrt.jar"
 		}
 		else{
 			final javaHome = System.env["JAVA_HOME"]
-			jfxJar = "${javaHome}${File.separator}jre${File.separator}lib${File.separator}jfxrt.jar"
+			jfxJar = "${javaHome}/jre/lib/jfxrt.jar"
 		}
 		
 		if(!(new File(jfxJar)).exists())
