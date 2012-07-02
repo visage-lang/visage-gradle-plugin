@@ -43,8 +43,8 @@ public class VisageSourceTask extends SourceTask {
         return this
     }
 
-    public VisageSourceTask excludeNamespace(String pattern) {
+  /*  public VisageSourceTask excludeNamespace(String pattern) {
         exclude(pattern.replaceAll("-", "_").replaceAll("\\.", "/") + ".visage")
         return this
-    }
+    }*/
 }

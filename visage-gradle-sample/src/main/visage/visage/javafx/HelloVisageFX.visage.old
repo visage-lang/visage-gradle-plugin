@@ -1,0 +1,89 @@
+/*
+ * Copyright (c) 2010-2011, Visage Project
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name Visage nor the names of its contributors may be used
+ *    to endorse or promote products derived from this software without
+ *    specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+package visage.javafx;
+
+import visage.animation.Interpolator;
+import visage.animation.Timeline;
+import visage.javafx.geometry.Rectangle2D;
+import visage.javafx.stage.Stage;
+import visage.javafx.scene.Group;
+import visage.javafx.scene.Scene;
+import visage.javafx.scene.control.Button;
+import visage.javafx.scene.image.Image;
+import visage.javafx.scene.image.ImageView;
+import visage.javafx.scene.shape.Rectangle;
+
+/**
+ * @author Stephen Chin <steveonjava@gmail.com>
+ * @author Alain Béarez <A@cua.li>
+ */
+var position = 100;
+
+Timeline {
+    at (10s) {position => 150 tween Interpolator.LINEAR}
+}.play();
+
+Stage {
+    title: "Turdus rufiventris"
+    Scene {
+        width: 700
+        height: 600
+        fill: Color.LIGHTGREY
+        def sabiah = Image { url: "{__DIR__}400px-Turdus-rufiventris.jpg" }
+        Group {
+            [
+            ImageView { sabiah }
+            ImageView {
+                sabiah
+                fitWidth: 200
+                preserveRatio: true
+                layoutX: 400
+            }
+            ImageView {
+                sabiah
+                fitWidth: 200
+                preserveRatio: true
+                layoutX: 400
+                layoutY: 300
+                rotate: 180
+            }
+            ImageView {
+                sabiah
+                viewport: Rectangle2D { minX: 35 minY: 250 width: 100 height: 200 }
+                layoutX: 600
+            }
+            Button {
+                text: "Hello World!"
+                layoutX: bind position
+                layoutY: bind 80 + position
+            }
+            Rectangle { x: 600 y: 350 width: 100 height: 50 arcWidth: 20 arcHeight: 10 }
+            ]
+        }
+    }
+}

@@ -39,6 +39,7 @@ import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDepen
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.plugins.WarPlugin
+import org.gradle.api.tasks.JavaExec;
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.bundling.War
@@ -60,15 +61,20 @@ class VisagePlugin implements Plugin<Project> {
 	static final String VISAGE_CONFIGURATION_NAME = "visage"
 	
 	static final String VISAGE_GROUP = "Visage"
-
+	
+ @Override
 	void apply(Project project) {
+		project.getPlugins().apply(JavaPlugin.class);
+	    
 		
-
+		
 		configureSetup(project)
 
-		project.getPlugins().apply(JavaPlugin.class);
+		project.extensions.create("visage", VisagePluginConvention)
+		
+		VisagePluginConvention visagePluginConvention = new VisagePluginConvention()
 
-		project.convention.plugins.visage = new VisagePluginConvention(project);
+	//	project.convention.plugins.visage = visagePluginConvention
 
 		configureSourceSets(project)
 		configureCompileTask(project)
@@ -102,10 +108,10 @@ class VisagePlugin implements Plugin<Project> {
 			throw new StopExecutionException("VISAGE_HOME is not set.")
 		
 		if(!(new File(visageHome + "/bin/visage")).exists())
-				throw new StopExecutionException("Visage compiler is not in VISAGE_HOME")
+				throw new StopExecutionException("VISAGE_HOME env. variable is not set. Download Visage Compiler and set this variable in your system.")
 		
 		if(!(new File(visageJar)).exists())
-				throw new StopExecutionException("VisageFX is missing in VISAGE_HOME/lib")
+				throw new StopExecutionException("VisageFX is missing in VISAGE_HOME/lib. Download and place the VisageFx.jar in this path.")
 		
 		if (javafxHome) {
 			jfxJar = "${javafxHome}${File.separator}rt${File.separator}lib${File.separator}jfxrt.jar"
@@ -119,12 +125,8 @@ class VisagePlugin implements Plugin<Project> {
 		throw new StopExecutionException("JAVAFX_HOME is not set or your JDK is not having JAVAFX jar.")
 		
 		
-		println "jfxJar => ${jfxJar}"
-		println "visageJar => ${visageJar}"
-		println project.files(visageJar)
-		
 			project.dependencies  {
-			  compile project.files(visageJar)
+			  compile project.files(visageJar,jfxJar)
 		}
 			
 				
@@ -156,8 +158,8 @@ class VisagePlugin implements Plugin<Project> {
 					type: VisageCompileTask.class) {
 					//project.sourceSets.main.output.classesDir
 						destinationDir = set.output.classesDir
-						source set.visage
-						visageRoots = set.visage
+						source = set.visage
+					//	visageRoots = set.visage
 						classpath = project.files(
 								set.compileClasspath,
 								project.files([project.configurations.runtime]) 
@@ -166,13 +168,14 @@ class VisagePlugin implements Plugin<Project> {
 						description =
 								String.format("Compile the %s Visage source.",
 								set.name)
+						dependsOn  project.compileJava
 						group = VISAGE_GROUP
 					}
 			project.tasks[set.classesTaskName].dependsOn task
 		}
 	}
 	
-	private void configureRunTask(Project project) {
+	private void configureRunTask( project) {
 	
 			
 			
@@ -182,12 +185,13 @@ class VisagePlugin implements Plugin<Project> {
 
 		VisageRunTask task = project.tasks.add(name: 'runVisage',
 			type: VisageRunTask.class) {
-						//	destinationDir = set.output.classesDir
+							destinationDir = set.output.classesDir
 							source set.visage
-						//	visageRoots = set.visage
+						visageMainClass = project.visage.visageMainClass
 							classpath = project.files(
-									set.compileClasspath,
-									//project.configurations.development
+								project.sourceSets.main.output.classesDir,
+								project.sourceSets.main.resources,
+								project.configurations.runtime
 									)
 							description = 'Run a Viaage main file.'
 			group = VISAGE_GROUP
@@ -195,5 +199,10 @@ class VisagePlugin implements Plugin<Project> {
 				project.tasks[set.classesTaskName].dependsOn task
 			}
 
-		}
+		} 
+	
 }
+
+
+
+

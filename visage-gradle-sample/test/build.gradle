@@ -1,0 +1,30 @@
+
+buildscript{
+	repositories { mavenLocal() }
+	dependencies { classpath  'visage:visage-gradle-plugin:0.1-SNAPSHOT' }
+}
+
+
+apply plugin: 'visage'
+apply plugin: 'visage-template'
+
+group = 'visage'
+version = '0.1-SNAPSHOT'
+
+repositories { mavenCentral() }
+
+//visageMainClass = ''
+
+visage {
+	//visageMainClass = ''
+}
+
+dependencies {
+
+
+}
+
+
+
+
+

@@ -2,6 +2,7 @@ defaultTasks 'clean', 'install'
 
 
 apply plugin: 'groovy'
+apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
 
