@@ -16,15 +16,15 @@ version = '0.1-SNAPSHOT'
 
 repositories { mavenCentral() }
 
-visageMainClass="HelloVisage"
+//visageMainClass="HelloVisage"
 
 
 
-visage {
-	visageMainClass="HelloVisage"
-}
+visage{
+	mainclass='visage.javafx.scene.effect.EffectTest'
+}	
 
-
+/*
 task myrun (type: Exec) {
 	
 	
@@ -42,6 +42,7 @@ task myrun (type: Exec) {
 	   
 	commandLine = [myCommand]
 	}
+*/
 
 
 

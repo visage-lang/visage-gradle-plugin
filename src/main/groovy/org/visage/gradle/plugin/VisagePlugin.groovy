@@ -62,23 +62,27 @@ class VisagePlugin implements Plugin<Project> {
 	
 	static final String VISAGE_GROUP = "Visage"
 	
- @Override
+
 	void apply(Project project) {
+		
 		project.getPlugins().apply(JavaPlugin.class);
-	    
+		
+		
+		project.extensions.create("visage", VisagePluginExtension)
 		
 		
 		configureSetup(project)
 
-		project.extensions.create("visage", VisagePluginConvention)
 		
-		VisagePluginConvention visagePluginConvention = new VisagePluginConvention()
+		//VisagePluginConvention visagePluginConvention = new VisagePluginConvention()
 
 	//	project.convention.plugins.visage = visagePluginConvention
 
 		configureSourceSets(project)
 		configureCompileTask(project)
 		configureRunTask(project)
+		
+		
 	}
 
 	/*private void configureConfigurations(Project project) {
@@ -185,15 +189,19 @@ class VisagePlugin implements Plugin<Project> {
 
 		VisageRunTask task = project.tasks.add(name: 'runVisage',
 			type: VisageRunTask.class) {
+			
+			println "visageMainClass = ${project.visage.mainclass}"
+			
 							destinationDir = set.output.classesDir
 							source set.visage
-						visageMainClass = project.visage.visageMainClass
+						visageMainClass = project.visage.mainclass
 							classpath = project.files(
 								project.sourceSets.main.output.classesDir,
 								project.sourceSets.main.resources,
 								project.configurations.runtime
 									)
 							description = 'Run a Viaage main file.'
+						
 			group = VISAGE_GROUP
 						}
 				project.tasks[set.classesTaskName].dependsOn task

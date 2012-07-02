@@ -82,6 +82,7 @@ public class VisageRunTask extends VisageSourceTask {
 		
 		logger.debug("Visage Running Files: $visageMainClass");
 		String lCommand = "visage -cp $cp  $visageMainClass"
+		println lCommand
 		logger.info("Visage Run Command: " + lCommand)
 		def sout = new StringBuffer()
 		def serr = new StringBuffer()

@@ -37,10 +37,10 @@ import org.gradle.api.Project
  *
  *
  */
-class VisagePluginConvention {
+class VisagePluginExtension {
 
 	
-	String visageMainClass
+	def String mainclass = ''
 
 
 }
