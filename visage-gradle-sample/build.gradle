@@ -24,9 +24,9 @@ visage{
 	mainclass='visage.javafx.scene.effect.EffectTest'
 }	
 
-/*
-task myrun (type: Exec) {
-	
+
+task runv (type: Exec) {
+
 	
 	def cp =  project.files(
 				project.sourceSets.main.output.classesDir,
@@ -34,17 +34,13 @@ task myrun (type: Exec) {
 				project.configurations.runtime
 				).getAsPath() 
 	
-	String myCommand = "visage -cp ${cp} visage.javafx.scene.effect.EffectTest"
+	//String myCommand =  "visage -cp ${cp} visage.javafx.scene.effect.EffectTest"
 	
-	println "RUN COMMAND : ${myCommand}"
+	//println "RUN COMMAND : ${myCommand}"
 	workingDir project.sourceSets.main.output.classesDir
 	 // classpath  project.files([project.sourceSets.main.output.classesDir, project.sourceSets.main.resources, project.configurations.runtime,]) 
-	   
-	commandLine = [myCommand]
+	
+	commandLine "visage", "-cp", cp, "visage.javafx.scene.effect.EffectTest"
 	}
-*/
-
-
-
 
 

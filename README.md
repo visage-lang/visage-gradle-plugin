@@ -30,9 +30,11 @@ Add following code snippet in your `build.gradle` and you are all set!
           }
 
      apply plugin: 'visage'
-	 apply plugin: 'visage-template'
+	 apply plugin: 'visage-template'  
 
 Put all your visage files at `src/main/visage` folder
+
+visage-template - will be moved later to Project Gradle Template
 
 Prerequisite
 ============
