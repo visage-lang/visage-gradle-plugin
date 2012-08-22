@@ -23,6 +23,7 @@ Add following code snippet in your `build.gradle` and you are all set!
 
      buildscript {
           repositories {
+               mavenLocal();
                repositories {	mavenRepo url: "http://jugchennai.github.com/visage-gradle-plugin/repository" } 
           }
           dependencies {	
@@ -34,16 +35,22 @@ Add following code snippet in your `build.gradle` and you are all set!
 
 Put all your visage files at `src/main/visage` folder
 
-visage-template - will be moved later to Project Gradle Template
+visage-template - In future this command will be placed in Project Gradle Template
+
+Tasks
+============
+createVisgeProject - Creates a new visge project by asking details of project, group name and version.
+compileVisage - Compile all Visage files.
+runVisage - runs the calss assigned to `visageMainClass` variable.
 
 Prerequisite
 ============
-
 Before you use this plugin you need following in your syste:
-* JDK 1.5+
+* JDK 1.6+
 * Gradle - If you dont have just run `gradlew`
 * Visage Compiler - 
 * VisageFX.jar - You need to build from source to create the jar
 * JavaFX 2
 
+Before you start using the plugin make sure you have installed Visage Compiler to your system and set the VISAGE_HOME.
 

@@ -39,6 +39,7 @@ import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDepen
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.plugins.WarPlugin
+import org.gradle.api.tasks.Exec;
 import org.gradle.api.tasks.JavaExec;
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.bundling.Jar
@@ -68,7 +69,7 @@ class VisagePlugin implements Plugin<Project> {
 		project.getPlugins().apply(JavaPlugin.class);
 		
 		
-		project.extensions.create("visage", VisagePluginExtension)
+		
 		
 		
 		configureSetup(project)
@@ -101,6 +102,8 @@ class VisagePlugin implements Plugin<Project> {
 	}*/
 
 	private void configureSetup(project) {
+		
+		project.extensions.create('visage', VisagePluginExtension, "undefined")
 
 		final visageHome = System.env["VISAGE_HOME"]
 		final javafxHome = System.env["JAVAFX_HOME"]
@@ -181,6 +184,19 @@ class VisagePlugin implements Plugin<Project> {
 	
 	private void configureRunTask( project) {
 	
+			/*
+			
+			VisageRunTask task = project.tasks.add(name: 'runVisage',
+				type: VisageRunTask.class) {
+				
+				println "mainVisageClass = ${project.visage.mainVisageClass} "+ project.visage.mainVisageClass
+				
+				
+								description = 'Run a Viaage main file.'
+							
+				group = VISAGE_GROUP
+							}
+			
 			
 			
 			project.sourceSets.each { set ->
@@ -188,7 +204,7 @@ class VisagePlugin implements Plugin<Project> {
 					return
 
 		VisageRunTask task = project.tasks.add(name: 'runVisage',
-			type: VisageRunTask.class) {
+			type: Exec.class) {
 			
 			println "visageMainClass = ${project.visage.mainclass}"
 			
@@ -205,7 +221,7 @@ class VisagePlugin implements Plugin<Project> {
 			group = VISAGE_GROUP
 						}
 				project.tasks[set.classesTaskName].dependsOn task
-			}
+			} */
 
 		} 
 	
