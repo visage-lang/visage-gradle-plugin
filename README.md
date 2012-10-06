@@ -24,14 +24,14 @@ Add following code snippet in your `build.gradle` and you are all set!
      buildscript {
           repositories {
                mavenLocal();
-               repositories {	mavenRepo url: "http://jugchennai.github.com/visage-gradle-plugin/repository" } 
+               repositories {	mavenRepo url: "http://visage-lang.github.com/visage-gradle-plugin/repository/" } 
           }
           dependencies {	
-               classpath 'visage:visage-gradle-plugin:0.1-SNAPSHOT' }
+               classpath 'visage:visage-gradle-plugin:0.1' }
           }
 
      apply plugin: 'visage'
-	 apply plugin: 'visage-template'  
+	apply plugin: 'visage-template'  
 
 Put all your visage files at `src/main/visage` folder
 
