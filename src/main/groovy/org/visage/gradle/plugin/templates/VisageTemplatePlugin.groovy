@@ -14,7 +14,11 @@ class VisageTemplatePlugin implements Plugin<Project> {
 		ProjectTemplate.fromRoot(path) {
 			'src' {
 				'main' {
-					'visage' {}
+					'visage' {
+						'visage' {
+							'javafx' {}
+							}
+						}
 					'java' {}
 					'resources' {}
 				}
@@ -55,11 +59,12 @@ class VisageTemplatePlugin implements Plugin<Project> {
 			def projectName = props['newProjectName'] ?: TemplatesPlugin.prompt('Project Name:')
 			if (projectName) {
 				String projectGroup = props['projectGroup'] ?: TemplatesPlugin.prompt('Group:', projectName.toLowerCase())
-				String projectVersion = props['projectVersion'] ?: TemplatesPlugin.prompt('Version:', '1.0')
+				String projectVersion = props['projectVersion'] ?: TemplatesPlugin.prompt('Version:', '0.1-SNAPSHOT')
 				createBase(projectName)
 				ProjectTemplate.fromRoot(projectName) {
 					'build.gradle' template: '/templates/visage/build.gradle.tmpl', projectGroup: projectGroup
 					'gradle.properties' content: "version=$projectVersion", append: true
+					'src/main/visage/visage/javafx/HelloVisageFX.visage' template: '/templates/visage/HelloVisageFX.visage'
 				}
 			} else {
 				println 'No project name provided.'

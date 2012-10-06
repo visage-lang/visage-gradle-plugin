@@ -86,21 +86,6 @@ class VisagePlugin implements Plugin<Project> {
 		
 	}
 
-	/*private void configureConfigurations(Project project) {
-		project.configurations {
-			visage {
-				transitive = false
-				visible = false
-				description = "Visage internal configuration. Don't use!"
-			}
-			development {
-				transitive = false
-				visible = false
-				description = "Development only dependencies"
-			}
-		}
-	}*/
-
 	private void configureSetup(project) {
 		
 		project.extensions.create('visage', VisagePluginExtension, "undefined")
@@ -183,6 +168,8 @@ class VisagePlugin implements Plugin<Project> {
 	}
 	
 	private void configureRunTask( project) {
+		
+		//println "PluginVsiageClass : ${project.visage.mainVisageClass}"
 	
 			/*
 			

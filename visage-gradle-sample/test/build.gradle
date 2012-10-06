@@ -1,12 +1,14 @@
 
 buildscript{
 	repositories { mavenLocal() }
-	dependencies { classpath  'visage:visage-gradle-plugin:0.1-SNAPSHOT' }
+	dependencies { classpath  'visage:visage-gradle-plugin:0.1' }
 }
 
 
 apply plugin: 'visage'
 apply plugin: 'visage-template'
+
+defaultTasks 'createVisageProject'
 
 group = 'visage'
 version = '0.1-SNAPSHOT'

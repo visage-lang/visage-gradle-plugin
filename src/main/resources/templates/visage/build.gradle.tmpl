@@ -4,28 +4,30 @@ buildscript {
         repositories {
                     repositories {  mavenRepo url: "http://jugchennai.github.com/visage-gradle-plugin/repository" } 
         }
-    dependencies {  classpath 'visage:visage-gradle-plugin:0.1-SNAPSHOT' }
+    dependencies {  classpath 'visage:visage-gradle-plugin:0.1' }
 }
 
 apply plugin: 'visage'
 
 group = '${projectGroup}'
 
+defaultTasks 'runVisage'
 
-// Add your fully qualified Visage Main class path here
-mainVisageClass=''
+visage {
 
-
-task runVisage (type: Exec) {
-
-		def cp =  project.files(
-					project.sourceSets.main.output.classesDir,
-					project.sourceSets.main.resources,
-					project.configurations.runtime
-					).getAsPath() 
+	mainVisageClass='visage.javafx.HelloVisageFX'
 	
-		workingDir project.sourceSets.main.output.classesDir
-		 
-		commandLine "visage", "-cp", cp, mainVisageClass
 }
 
+task runVisage (type: Exec, dependsOn: 'compileVisage') {
+		
+	def cp =  project.files(
+				project.sourceSets.main.output.classesDir,
+				project.sourceSets.main.resources,
+				project.configurations.runtime
+				).getAsPath() 
+
+	workingDir project.sourceSets.main.output.classesDir
+
+	commandLine "visage", "-cp", cp, project.visage.mainVisageClass 
+	}

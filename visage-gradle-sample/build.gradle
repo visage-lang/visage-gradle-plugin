@@ -1,5 +1,6 @@
 
 import org.gradle.api.tasks.Exec;
+
 buildscript{
 	repositories { mavenLocal() }
 	dependencies { classpath  'visage:visage-gradle-plugin:0.1-SNAPSHOT' }
@@ -8,28 +9,29 @@ buildscript{
 apply plugin: 'visage'
 apply plugin: 'visage-template'
 
+defaultTasks 'runVisage'
+
 group = 'visage'
 version = '0.1-SNAPSHOT'
 
 repositories { mavenCentral() }
 
-mainVisageClass="visage.javafx.scene.effect.EffectTest"
 
-task runVisage (type: Exec) {
-	
+visage {
+	mainVisageClass='visage.javafx.HelloVisageFX'
+	}
+
+task runVisage (type: Exec, dependsOn: 'compileVisage') {
+		
 	def cp =  project.files(
 				project.sourceSets.main.output.classesDir,
 				project.sourceSets.main.resources,
 				project.configurations.runtime
 				).getAsPath() 
-	
-	//String myCommand =  "visage -cp ${cp} visage.javafx.scene.effect.EffectTest"
-	
-	//println "RUN COMMAND : ${myCommand}"
+
 	workingDir project.sourceSets.main.output.classesDir
-	 // classpath  project.files([project.sourceSets.main.output.classesDir, project.sourceSets.main.resources, project.configurations.runtime,]) 
-	
-	commandLine "visage", "-cp", cp, mainVisageClass
+
+	commandLine "visage", "-cp", cp, project.visage.mainVisageClass 
 	}
 
 

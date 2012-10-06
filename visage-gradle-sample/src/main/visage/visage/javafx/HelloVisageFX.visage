@@ -1,0 +1,53 @@
+
+package visage.javafx;
+
+
+import visage.javafx.stage.Stage;
+import visage.javafx.scene.Group;
+import visage.javafx.scene.Scene;
+import visage.javafx.scene.text.*;
+import visage.javafx.scene.control.*;
+import visage.javafx.scene.layout.*;
+import visage.javafx.geometry.Insets;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import visage.javafx.scene.effect.*;
+
+/**
+ * @author Shiv Kumar Ganesh <gshiv.sk@gmail.com>
+ * 
+ */
+
+Stage {
+    title: "VisageFX"
+    Scene {
+        width: 800
+        height: 600
+        fill: Color.BLACK
+        HBox { 
+                20
+                padding: Insets { left: 200 top: 200 bottom: 200 }
+                
+        children:[
+        Text {
+            x:100
+            y:200
+            text: "Visage"
+            fill:Color.SILVER
+            font: Font.font("Verdana",FontWeight.BOLD, FontPosture.ITALIC, 80)
+            effect:Glow{level:0.8}
+                
+                }
+        Text {
+            x:280
+            y:200
+            text: "FX"
+            fill:Color.ORANGE
+            font: Font.font("Verdana",FontWeight.BOLD, FontPosture.ITALIC, 80)
+            effect:Glow{level:0.8}
+
+                
+                }]
+            }   
+    }
+}

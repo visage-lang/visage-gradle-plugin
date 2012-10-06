@@ -7,8 +7,9 @@ apply plugin: 'eclipse'
 apply plugin: 'maven'
 
 group = 'visage'
-version = '0.1-SNAPSHOT'
+version = '0.1'
 
+defaultTasks 'clean','install'
 
 repositories { mavenCentral() }
 
