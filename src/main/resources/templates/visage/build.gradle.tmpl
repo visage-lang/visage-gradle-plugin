@@ -2,9 +2,9 @@
 
 buildscript {
         repositories {
-                    repositories {  mavenRepo url: "http://jugchennai.github.com/visage-gradle-plugin/repository" } 
+                    repositories {  mavenRepo url: "http://visage-lang.github.com/visage-gradle-plugin/repository/" } 
         }
-    dependencies {  classpath 'visage:visage-gradle-plugin:0.1' }
+    dependencies {  classpath 'visage:visage-gradle-plugin:0.4' }
 }
 
 apply plugin: 'visage'
@@ -19,12 +19,11 @@ visage {
 	
 }
 
-task runVisage (type: Exec, dependsOn: 'compileVisage') {
+task runVisage (type: Exec, dependsOn: 'jar') {
 		
 	def cp =  project.files(
-				project.sourceSets.main.output.classesDir,
-				project.sourceSets.main.resources,
-				project.configurations.runtime
+				project.configurations.runtime,
+			jar.archivePath
 				).getAsPath() 
 
 	workingDir project.sourceSets.main.output.classesDir

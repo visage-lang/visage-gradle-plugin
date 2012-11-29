@@ -3,11 +3,12 @@ import org.gradle.api.tasks.Exec;
 
 buildscript{
 	repositories { mavenLocal() }
-	dependencies { classpath  'visage:visage-gradle-plugin:0.1-SNAPSHOT' }
+	dependencies { classpath  'visage:visage-gradle-plugin:0.4' }
 }
 
 apply plugin: 'visage'
 apply plugin: 'visage-template'
+apply plugin: 'java'
 
 defaultTasks 'runVisage'
 
@@ -21,17 +22,18 @@ visage {
 	mainVisageClass='visage.javafx.HelloVisageFX'
 	}
 
-task runVisage (type: Exec, dependsOn: 'compileVisage') {
+task runVisage (type: Exec, dependsOn: 'jar') {
 		
 	def cp =  project.files(
-				project.sourceSets.main.output.classesDir,
-				project.sourceSets.main.resources,
-				project.configurations.runtime
+			//	project.sourceSets.main.output.classesDir,
+			//	project.sourceSets.main.resources,
+				project.configurations.runtime,
+			jar.archivePath
 				).getAsPath() 
 
 	workingDir project.sourceSets.main.output.classesDir
 
 	commandLine "visage", "-cp", cp, project.visage.mainVisageClass 
 	}
-
+println (jar.archivePath)
 

@@ -7,7 +7,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven'
 
 group = 'visage'
-version = '0.1'
+version = '0.4'
 
 defaultTasks 'clean','install'
 
@@ -30,7 +30,7 @@ manifest.mainAttributes('Implementation-Title': "${project.name}",
 uploadArchives {
 	repositories {
 		mavenDeployer {
-			repository(url: "file://${rootDir}/../visage-gradle-plugin-pages/repository")
+			repository(url: "file://${rootDir}/../visage-repo/repository")
 		}
 	}
 }

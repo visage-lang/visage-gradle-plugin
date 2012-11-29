@@ -12,16 +12,22 @@ import visage.javafx.geometry.Insets;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import visage.javafx.scene.effect.*;
+import visage.javafx.scene.image.Image;
+import visage.javafx.scene.image.ImageView;
+import javafx.event.ActionEvent;
+import java.lang.System;
 
 /**
  * @author Shiv Kumar Ganesh <gshiv.sk@gmail.com>
  * 
  */
 
+  def logoFX = Image { url: "{__DIR__}JavaFX.png" }
+
 Stage {
     title: "VisageFX"
     Scene {
-        width: 800
+        width: 900
         height: 600
         fill: Color.BLACK
         HBox { 
@@ -45,9 +51,19 @@ Stage {
             fill:Color.ORANGE
             font: Font.font("Verdana",FontWeight.BOLD, FontPosture.ITALIC, 80)
             effect:Glow{level:0.8}
+        }ImageView {
+                            logoFX
+                      //      fitWidth: 180
+                            preserveRatio: true
+         }Button {
+                          text: "OK"
+                         // defaultButton: true
+                          onAction: function(event: ActionEvent):Void {
+                              System.out.println ("{__DIR__}JavaFX.png")
+                            }
+                            }
 
-                
-                }]
+                ]
             }   
     }
 }
