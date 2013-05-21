@@ -110,11 +110,14 @@ public class VisageCompileTask extends VisageSourceTask {
 
 
 
-	@TaskAction
+		@TaskAction
 	public void compile() {
 		if (destinationDir == null) {
 			throw new StopExecutionException("destinationDir not set!")
 		}
+		
+	
+		
 		destinationDir.mkdirs()
 
 		// TODO I don't think this works for paths with spaces in them. Should fix this.
@@ -124,18 +127,35 @@ public class VisageCompileTask extends VisageSourceTask {
 				//project.configurations.development
 				//  this.compileClasspath
 				).getAsPath();
+			
+			 
+			
 		logger.debug("Visage Compilation Classpath = $cp");
 		def srcFiles = source.collect {
 			String.format("\"%s\"", it.path)
 		}.join(" ")
 		logger.debug("Visage Compiling Files: $srcFiles");
-		String lCommand = "visagec -cp $cp -d ${destinationDir.absolutePath} $srcFiles"
+//		String lCommand = "visagec -cp $cp -d ${destinationDir.absolutePath} $srcFiles"
+	
+		ant.taskdef(name: 'visagec', classname: 'org.visage.tools.ant.VisageAntTask', classpath: cp)
+		
+		ant.visagec (destdir:  destinationDir.absolutePath, includes: '**/*.visage', 
+			includeantruntime: false,compilerclasspath: cp, classpath: cp,  srcdir: 'src/main/visage' )
+
+	/*	ant.echo message: "Ant Message => $lCommand"
 		logger.info("Visage Compilation Command: " + lCommand)
 		def sout = new StringBuffer()
 		def serr = new StringBuffer()
 		def process = lCommand.execute()
 		process.consumeProcessOutput(sout, serr)
 		process.waitFor()
+		
+		
+		
+		
+		
+		
+		
 		// TODO this doesn't appear to stop compilation if there are missing entries on the class path.
 		if (process.exitValue()) {
 			logger.error(serr.toString())
@@ -145,13 +165,6 @@ public class VisageCompileTask extends VisageSourceTask {
 			logger.info(sout.toString())
 			logger.debug(serr.toString())
 		}
-
+*/
 	}
-
-
-
-
-
-
-
-}
+	}
