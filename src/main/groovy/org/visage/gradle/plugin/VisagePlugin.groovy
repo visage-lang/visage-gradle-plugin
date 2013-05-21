@@ -96,7 +96,7 @@ class VisagePlugin implements Plugin<Project> {
 		
 		def jfxJar =''
 		
-		if (!visageHome)
+	/*	if (!visageHome)
 			throw new StopExecutionException("VISAGE_HOME is not set.")
 		
 		if(!(new File(visageHome + "/bin/visage")).exists())
@@ -104,7 +104,7 @@ class VisagePlugin implements Plugin<Project> {
 		
 		if(!(new File(visageJar)).exists())
 				throw new StopExecutionException("VisageFX is missing in VISAGE_HOME/lib. Download and place the VisageFx.jar in this path.")
-		
+		*/
 		if (javafxHome) {
 			jfxJar = "${javafxHome}/rt/lib/jfxrt.jar"
 		}
