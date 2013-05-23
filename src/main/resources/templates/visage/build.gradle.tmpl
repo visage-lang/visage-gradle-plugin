@@ -1,32 +1,28 @@
 
-
 buildscript {
         repositories {
                     repositories {  mavenRepo url: "http://visage-lang.github.com/visage-gradle-plugin/repository/" } 
         }
-    dependencies {  classpath 'visage:visage-gradle-plugin:0.4' }
+    dependencies {  classpath 'org.visage-lang:visage-gradle-plugin:0.5' }
 }
 
-apply plugin: 'visage'
+apply plugin: 'visage-javafx'
 
 group = '${projectGroup}'
 
 defaultTasks 'runVisage'
 
-visage {
-
-	mainVisageClass='visage.javafx.HelloVisageFX'
-	
+ext {
+ mainVisageClass='visage.javafx.HelloVisageFX'
 }
 
-task runVisage (type: Exec, dependsOn: 'jar') {
-		
-	def cp =  project.files(
-				project.configurations.runtime,
-			jar.archivePath
-				).getAsPath() 
+task(runVisage, dependsOn: 'jar', type: JavaExec) {
 
-	workingDir project.sourceSets.main.output.classesDir
+	main = 'org.visage.runtime.main.Main'
+	args = [
+		project.mainVisageClass
+	]
+	classpath jar.archivePath
+	classpath project.configurations.runtime
 
-	commandLine "visage", "-cp", cp, project.visage.mainVisageClass 
-	}
+}
