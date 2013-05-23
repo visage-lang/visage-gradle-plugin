@@ -1,0 +1,1 @@
+buildscript {    repositories {        mavenLocal();        repositories {            mavenRepo url: "http://visage-lang.github.com/visage-gradle-plugin/repository/"        }      }      dependencies {   		   classpath group: 'org.visage-lang', name: 'visage-gradle-plugin', version: '+'       } } apply plugin: 'visage-template'

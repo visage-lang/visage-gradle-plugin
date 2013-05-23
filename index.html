@@ -136,16 +136,13 @@ SyntaxHighlighter.all();
 <pre class="brush: groovy">
 buildscript {
     repositories {
-        mavenLocal();
+        mavenCentral();
         repositories {   
 		  mavenRepo url: "http://visage-lang.github.com/visage-gradle-plugin/repository/" 
 		} 
       }
-      dependencies {    
-           classpath 'visage:visage-gradle-plugin:0.5' 
-      }
+      dependencies {classpath 'org.visage-lang:visage-gradle-plugin:0.5'}
  }
-
  apply plugin: 'visage-template' 
 </pre>
 
