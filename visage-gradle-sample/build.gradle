@@ -2,46 +2,41 @@
 import org.gradle.api.tasks.Exec;
 
 buildscript{
-	repositories { mavenLocal() }
-	dependencies { classpath  'visage:visage-gradle-plugin:0.4' }
+
+	repositories {   
+	mavenCentral()
+	mavenLocal()
+	mavenRepo url: "http://visage-lang.github.com/visage-gradle-plugin/repository/" } 
+	dependencies { classpath  'visage:visage-gradle-plugin:0.5' }
 }
 
-apply plugin: 'visage'
-apply plugin: 'visage-template'
-apply plugin: 'java'
+apply plugin: 'visage-javafx'
+
 
 defaultTasks 'runVisage'
 
 group = 'visage'
 version = '0.1-SNAPSHOT'
 
-repositories { 
-mavenCentral() 
-mavenLocal()
+repositories {
+	mavenCentral()
+	mavenLocal()
 }
 
-dependencies { 
-	compile 'org.visage-lang:visage-compiler:1.3.1' 
-	compile 'org.visage-lang:visage-javafx:1.3.1'
-	}
+ext {
+ mainVisageClass='visage.javafx.HelloVisageFX'
+}
+
+task(runVisage, dependsOn: 'jar', type: JavaExec) {
+
+	main = 'org.visage.runtime.main.Main'
+	args = [
+		project.mainVisageClass
+	]
+	classpath jar.archivePath
+	classpath project.configurations.runtime
+
+}
 
 
-visage {
-	mainVisageClass='visage.javafx.HelloVisageFX'
-	}
-
-task runVisage (type: Exec, dependsOn: 'jar') {
-		
-	def cp =  project.files(
-			//	project.sourceSets.main.output.classesDir,
-			//	project.sourceSets.main.resources,
-				project.configurations.runtime,
-			jar.archivePath
-				).getAsPath() 
-
-	workingDir project.sourceSets.main.output.classesDir
-
-	commandLine "visage", "-cp", cp, project.visage.mainVisageClass 
-	}
-println (jar.archivePath)
 

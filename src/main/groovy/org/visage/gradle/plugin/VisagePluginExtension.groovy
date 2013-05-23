@@ -40,11 +40,9 @@ import org.gradle.api.Project
 class VisagePluginExtension {
 
 	
-	def String mainVisageClass = ''
+	String mainVisageClass = ''
 	
-	VisagePluginExtension(String clsName) {
-		mainVisageClass = clsName
-		}
+	
 
 
 }
