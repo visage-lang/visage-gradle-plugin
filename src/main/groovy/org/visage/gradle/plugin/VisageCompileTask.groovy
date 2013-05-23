@@ -62,109 +62,33 @@ public class VisageCompileTask extends VisageSourceTask {
 		return this.classpath
 	}
 
-
-
-	/*
-	 @TaskAction
-	 public void compile() {
-	 if (destinationDir == null) {
-	 throw new StopExecutionException("destinationDir not set!")
-	 }
-	 destinationDir.mkdirs()
-	 List<String> options = []
-	 if (project.aotCompile) {
-	 options.add("--compile")
-	 } else {
-	 options.add("--require")
-	 }
-	 if (project.warnOnReflection) {
-	 options.add("--warn-on-reflection")
-	 }
-	 project.visageexec {
-	 this.jvmOptions()
-	 systemProperties "visage.compile.path": this.destinationDir.path
-	 classpath = project.files(
-	 this.visageRoots.srcDirs,
-	 this.destinationDir,
-	 this.classpath
-	 )
-	 main = "visage.tasks.compile/main"
-	 args = options + this.source.files
-	 }
-	 if (!project.aotCompile) {
-	 project.copy {
-	 from this.source
-	 into this.destinationDir
-	 }
-	 }
-	 }
-	 */
-
-
-
-
-
-
-
-
-
-
-
-		@TaskAction
+	@TaskAction
 	public void compile() {
 		if (destinationDir == null) {
 			throw new StopExecutionException("destinationDir not set!")
 		}
-		
-	
-		
+
 		destinationDir.mkdirs()
 
 		// TODO I don't think this works for paths with spaces in them. Should fix this.
 		def cp = project.files(
-				// this.inputRoots,
 				classpath
-				//project.configurations.development
-				//  this.compileClasspath
+
 				).getAsPath();
-			
-			 
-			
+
 		logger.debug("Visage Compilation Classpath = $cp");
+		
 		def srcFiles = source.collect {
 			String.format("\"%s\"", it.path)
 		}.join(" ")
+		
 		logger.debug("Visage Compiling Files: $srcFiles");
-//		String lCommand = "visagec -cp $cp -d ${destinationDir.absolutePath} $srcFiles"
-	
-		ant.taskdef(name: 'visagec', classname: 'org.visage.tools.ant.VisageAntTask', classpath: cp)
-		
-		ant.visagec (destdir:  destinationDir.absolutePath, includes: '**/*.visage', 
-			includeantruntime: false,compilerclasspath: cp, classpath: cp,  srcdir: 'src/main/visage' )
 
-	/*	ant.echo message: "Ant Message => $lCommand"
-		logger.info("Visage Compilation Command: " + lCommand)
-		def sout = new StringBuffer()
-		def serr = new StringBuffer()
-		def process = lCommand.execute()
-		process.consumeProcessOutput(sout, serr)
-		process.waitFor()
-		
-		
-		
-		
-		
-		
-		
-		// TODO this doesn't appear to stop compilation if there are missing entries on the class path.
-		if (process.exitValue()) {
-			logger.error(serr.toString())
-			logger.info(sout.toString())
-			throw new StopExecutionException("Failed to compile Visage")
-		} else {
-			logger.info(sout.toString())
-			logger.debug(serr.toString())
-		}
-*/
+		ant.taskdef(name: 'visagec', classname: 'org.visage.tools.ant.VisageAntTask', classpath: cp)
+
+		ant.visagec (destdir:  destinationDir.absolutePath, includes: '**/*.visage',
+		includeantruntime: false,compilerclasspath: cp, classpath: cp,  srcdir: 'src/main/visage' )
+
+
 	}
-	}
+}
