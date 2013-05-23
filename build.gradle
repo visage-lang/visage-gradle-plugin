@@ -6,8 +6,8 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
 
-group = 'visage'
-version = '0.4'
+group = 'org.visage-lang'
+version = '0.5'
 
 defaultTasks 'clean','install'
 
@@ -18,7 +18,7 @@ dependencies {
 	groovy localGroovy()
 }
 
-task wrapper(type: Wrapper) { gradleVersion = "1.0" }
+
 
 manifest.mainAttributes('Implementation-Title': "${project.name}",
 		'Implementation-Group': project.group,
