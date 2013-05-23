@@ -37,7 +37,6 @@ import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.execution.TaskExecutionGraph
 import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
 import org.gradle.api.plugins.JavaPlugin
-import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.plugins.WarPlugin
 import org.gradle.api.tasks.Exec;
 import org.gradle.api.tasks.JavaExec;
@@ -58,70 +57,34 @@ import org.gradle.api.internal.project.ProjectInternal
  *
  */
 class VisagePlugin implements Plugin<Project> {
-	
+
 	static final String VISAGE_CONFIGURATION_NAME = "visage"
-	
+
 	static final String VISAGE_GROUP = "Visage"
-	
 
 	void apply(Project project) {
-		
+
 		project.getPlugins().apply(JavaPlugin.class);
-		
-		
-		
-		
-		
+
 		configureSetup(project)
-
-		
-		//VisagePluginConvention visagePluginConvention = new VisagePluginConvention()
-
-	//	project.convention.plugins.visage = visagePluginConvention
 
 		configureSourceSets(project)
 		configureCompileTask(project)
 		configureRunTask(project)
-		
-		
 	}
 
 	private void configureSetup(project) {
-		
-		project.extensions.create('visage', VisagePluginExtension, "undefined")
 
-		final visageHome = System.env["VISAGE_HOME"]
-		final javafxHome = System.env["JAVAFX_HOME"]
-		final visageJar = "${visageHome}/lib/VisageFX.jar"
-		
-		def jfxJar =''
-		
-	/*	if (!visageHome)
-			throw new StopExecutionException("VISAGE_HOME is not set.")
-		
-		if(!(new File(visageHome + "/bin/visage")).exists())
-				throw new StopExecutionException("VISAGE_HOME env. variable is not set. Download Visage Compiler and set this variable in your system.")
-		
-		if(!(new File(visageJar)).exists())
-				throw new StopExecutionException("VisageFX is missing in VISAGE_HOME/lib. Download and place the VisageFx.jar in this path.")
-		*/
-		if (javafxHome) {
-			jfxJar = "${javafxHome}/rt/lib/jfxrt.jar"
+	//	project.extensions.create('visage', VisagePluginExtension, "undefined")
+
+		project.repositories {
+			mavenRepo(name:"Visage Repo", url:"http://visage-lang.github.com/visage-gradle-plugin/repository/")
 		}
-		else{
-			final javaHome = System.env["JAVA_HOME"]
-			jfxJar = "${javaHome}/jre/lib/jfxrt.jar"
+		project.dependencies { 
+			compile 'org.visage-lang:visage-compiler:1.3.1' 	
+			compile 'org.visage-lang:visage-main:1.3.1'
+			compile 'org.visage-lang:visage-rt:1.3.1'
 		}
-		
-		if(!(new File(jfxJar)).exists())
-		throw new StopExecutionException("JAVAFX_HOME is not set or your JDK is not having JAVAFX jar.")
-		
-		
-			project.dependencies  {
-			  compile project.files(visageJar,jfxJar)
-		}
-			
-				
 	}
 
 	private void configureSourceSets(Project project) {
@@ -135,7 +98,6 @@ class VisagePlugin implements Plugin<Project> {
 			sourceSet.visage.srcDirs = [
 				String.format("src/%s/visage", sourceSet.name)
 			]
-			// sourceSet.resources.filter.exclude("**/*.visage")
 			sourceSet.allSource.source(visageSourceSet.visage)
 		}
 	}
@@ -145,73 +107,60 @@ class VisagePlugin implements Plugin<Project> {
 			if (set.equals(project.sourceSets.test))
 				return
 			String compileTaskName = set.getCompileTaskName("visage")
-			
+
 			VisageCompileTask task = project.tasks.add(name: compileTaskName,
-					type: VisageCompileTask.class) {
-					//project.sourceSets.main.output.classesDir
-						destinationDir = set.output.classesDir
-						source = set.visage
-					//	visageRoots = set.visage
-						classpath = project.files(
-								set.compileClasspath,
-								project.files([project.configurations.runtime]) 
-								//project.configurations.development
-								)
-						description =
-								String.format("Compile the %s Visage source.",
-								set.name)
-						dependsOn  project.compileJava
-						group = VISAGE_GROUP
-					}
+			type: VisageCompileTask.class) {
+				//project.sourceSets.main.output.classesDir
+				destinationDir = set.output.classesDir
+				source = set.visage
+				classpath = project.files(
+						set.compileClasspath,
+						project.files([
+							project.configurations.runtime
+						])
+						)
+				description =
+						String.format("Compile the %s Visage source.",
+						set.name)
+				dependsOn  project.compileJava
+				group = VISAGE_GROUP
+			}
 			project.tasks[set.classesTaskName].dependsOn task
 		}
 	}
-	
+
 	private void configureRunTask( project) {
-		
+
 		//println "PluginVsiageClass : ${project.visage.mainVisageClass}"
-	
-			/*
-			
-			VisageRunTask task = project.tasks.add(name: 'runVisage',
-				type: VisageRunTask.class) {
-				
-				println "mainVisageClass = ${project.visage.mainVisageClass} "+ project.visage.mainVisageClass
-				
-				
-								description = 'Run a Viaage main file.'
-							
-				group = VISAGE_GROUP
-							}
-			
-			
-			
-			project.sourceSets.each { set ->
-				if (set.equals(project.sourceSets.test))
-					return
 
-		VisageRunTask task = project.tasks.add(name: 'runVisage',
-			type: Exec.class) {
-			
-			println "visageMainClass = ${project.visage.mainclass}"
-			
-							destinationDir = set.output.classesDir
-							source set.visage
-						visageMainClass = project.visage.mainclass
-							classpath = project.files(
-								project.sourceSets.main.output.classesDir,
-								project.sourceSets.main.resources,
-								project.configurations.runtime
-									)
-							description = 'Run a Viaage main file.'
-						
-			group = VISAGE_GROUP
-						}
-				project.tasks[set.classesTaskName].dependsOn task
-			} */
+		/*
+		 VisageRunTask task = project.tasks.add(name: 'runVisage',
+		 type: VisageRunTask.class) {
+		 println "mainVisageClass = ${project.visage.mainVisageClass} "+ project.visage.mainVisageClass
+		 description = 'Run a Viaage main file.'
+		 group = VISAGE_GROUP
+		 }
+		 project.sourceSets.each { set ->
+		 if (set.equals(project.sourceSets.test))
+		 return
+		 VisageRunTask task = project.tasks.add(name: 'runVisage',
+		 type: Exec.class) {
+		 println "visageMainClass = ${project.visage.mainclass}"
+		 destinationDir = set.output.classesDir
+		 source set.visage
+		 visageMainClass = project.visage.mainclass
+		 classpath = project.files(
+		 project.sourceSets.main.output.classesDir,
+		 project.sourceSets.main.resources,
+		 project.configurations.runtime
+		 )
+		 description = 'Run a Viaage main file.'
+		 group = VISAGE_GROUP
+		 }
+		 project.tasks[set.classesTaskName].dependsOn task
+		 } */
 
-		} 
-	
+	}
 }
 
 
