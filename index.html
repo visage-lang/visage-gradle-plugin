@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Gradle Visage Plugin : Gradle plugin for Visage Language." />
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Gradle Visage Plugin</title>
+	<link href='http://alexgorbatchev.com/pub/sh/current/styles/shCore.css' rel='stylesheet' type='text/css'/>
+	<script src='http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js' type='text/javascript'></script>
+ <link href='http://alexgorbatchev.com/pub/sh/current/styles/shCoreMDUltra.css' rel='stylesheet' type='text/css'/> 
+<link href='http://alexgorbatchev.com/pub/sh/current/styles/shThemeEclipse.css' rel='stylesheet' type='text/css'/>
+<script src='http://alexgorbatchev.com/pub/sh/current/scripts/shLegacy.js' type='text/javascript'></script>
+<script src='http://alexgorbatchev.com/pub/sh/current/scripts/shBrushGroovy.js' type='text/javascript'></script>
+<script language='javascript'>
+SyntaxHighlighter.config.bloggerMode = true;
+SyntaxHighlighter.defaults['auto-links'] = false;
+SyntaxHighlighter.config.clipboardSwf = 'http://alexgorbatchev.com/pub/sh/current/scripts/clipboard.swf';
+SyntaxHighlighter.all();
+</script>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/JFXtras">View on GitHub</a>
+
+          <h1 id="project_title"><a href="https://github.com/visage-lang">Gradle Visage Plugin</a></h1>
+          <h2 id="project_tagline">Gradle plugin for Visage Language</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/visage-lang/visage-gradle-plugin/zipball/master">Download this project's sources as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/visage-lang/visage-gradle-plugin/tarball/master">Download this project's sources as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>Welcome to the Gradle Visage Project.</h3>
+
+<p>This project is to build a Gradle plug-in for Visage Language. This plug-in provides a easy way to develop Visage project. All you need is latest version of JDK and Gradle build tool.</p>
+
+
+<h3>What is Visage?</h3>
+<p>Visage is a domain specific language (DSL) designed for the express purpose of writing user interfaces.</p>
+<h3>What is Gradle?</h3>
+
+<p>Gradle is a general purpose Java build tool. Built on Groovy language but its also used for Java projects. You write build using Domain-Specific Language (DSL).</p>
+
+ <h3>Prerequisite</h3>
+
+   <ul>
+<li>JDK 7</li>
+<li>Gradle</li>
+
+</ul>
+
+ <h3>Plugins</h3>
+ <pre class="brush: groovy">
+ apply plugin: 'visage'  // Use this for generic visage application.
+ apply plugin: 'visage-template'  // This will help you to create a visage project
+ apply plugin: 'visage-javafx' // Uset to develope Visage + JavaFX application
+</pre>
+
+
+<h3>Plugin in action</h3>
+
+<img src="images/visage.png" >
+
+<h3>Dependency Detail</h3>
+
+<p>Currently this plug-in is hosted in the project Github site. Once the Visage project gets shape this will be moved to Maven Central Repo.</p> 
+<p>Repository URL <b>http://visage-lang.github.com/visage-gradle-plugin/repository/</b></p>
+
+<table style="width: 100%">
+  <thead>
+    <tr style="text-align: center">
+      <th>Group ID</th>
+      <th>Artifact ID</th>
+      <th>Version</th>
+	  <th>Remarks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="text-align: center">
+      <td>org.visage-lang</td>
+      <td>visage-gradle-plugin</td>
+      <td>0.5</td>
+	  <td>Contains visage-template and other plugins.</td>
+    </tr>
+    <tr style="text-align: center">
+      <td>org.visage-lang</td>
+      <td>visage-compiler</td>
+      <td>1.3.1</td>
+	  <td>Compiler</td>
+    </tr>
+    <tr style="text-align: center">
+      <td>org.visage-lang</td>
+      <td>visage-main</td>
+      <td>1.3.1</td>
+	  <td></td>
+    </tr>
+	<tr style="text-align: center">
+      <td>org.visage-lang</td>
+      <td>visage-rt</td>
+      <td>1.3.1</td>
+	  <td>Runtime</td>
+    </tr>
+	<tr style="text-align: center">
+      <td>org.visage-lang</td>
+      <td>visage-javafx</td>
+      <td>0.1-Snapshot</td>
+	  <td>Visage binders for JavaFX 2.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h5>Getting Started....</h5>
+<p>Once you have all the prerequisite in your system, open a terminal go to your favorite folder create a new build.gradle file and copy paste the below code snippet and save.</p>
+
+<pre class="brush: groovy">
+buildscript {
+    repositories {
+        mavenLocal();
+        repositories {   
+		  mavenRepo url: "http://visage-lang.github.com/visage-gradle-plugin/repository/" 
+		} 
+      }
+      dependencies {    
+           classpath 'visage:visage-gradle-plugin:0.5' 
+      }
+ }
+
+ apply plugin: 'visage-template' 
+</pre>
+
+<p>Execute following command in your terminal in same folder of the build.gradle<br/><br/>
+
+gradle createVisageProject<br/><br/>
+
+This will ask you three question of Project name, group name and version name. <br/>
+
+Once  you enter you will get a folder in the name of your project name. You are ready to run your first visage project. <br/>
+
+Change directory to the new folder and execute the following command. <br/><br/>
+
+gradle runVisage<br/><br/>
+
+Mow you must see a simple visage javafx app runs on your system!<br/>
+
+Enjoy!</p>
+
+</p>
+
+<h5>Mailing lists</h5>
+
+<p>The users mailing list is <a href="https://groups.google.com/group/jfxtras-users">here</a> and the developers mailing list is <a href="https://groups.google.com/group/jfxtras-dev">here</a>.
+
+<h3>Authors and Contributors</h3>
+
+<p>The following people have contributed to this project.</p>
+
+<ul>
+<li>Rajmahendra Hegde (<a href="https://github.com/rajonjava" class="user-mention">@rajonjava</a>)</li>
+<li><u>open for contribution</u></li>
+</ul>
+
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Gradle-Visage-Plugin maintained by <a href="http://visage-lang.org">Visage Project</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
